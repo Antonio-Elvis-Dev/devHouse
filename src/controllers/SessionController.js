@@ -1,4 +1,3 @@
-
 //metodos: index, show, update, store, destry
 
 /*
@@ -9,12 +8,23 @@ update: atualizar sessão
 destry: deletar uma sessão
 */
 
+import User from "../models/User";
+
 class SessionController {
-    store(req,res){
-        return res.json({
-            message:'Minha Api'
-        })
+  async store(req, res) {
+    const { email } = req.body;
+
+    // verifica a existencia do usuario
+    let user = await User.findOne({ email });
+
+    // cria novo usuario caso ele não exista
+    if (!user) {
+      let user = await User.create({ email });
     }
+
+
+    return res.json(user);
+  }
 }
 
 export default new SessionController();
